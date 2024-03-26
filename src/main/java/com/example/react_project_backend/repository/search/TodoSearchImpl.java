@@ -33,5 +33,7 @@ public class TodoSearchImpl extends QuerydslRepositorySupport implements TodoSea
         query.fetch(); // 쿼리를 실행함 (목록 데이터 가져올때)
         query.fetchCount(); // fetchCount는 전부 Long타입으로 나옴. (데이터가 많아서)
         return null;
+
+        // Querydsl의 목적은 동적 데이터를 처리하는것 (동적인 쿼리를 만드는것)
     }
 }
