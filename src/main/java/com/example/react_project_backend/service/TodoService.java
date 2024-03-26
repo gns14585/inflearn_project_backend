@@ -1,6 +1,8 @@
 package com.example.react_project_backend.service;
 
 import com.example.react_project_backend.domain.Todo;
+import com.example.react_project_backend.dto.PageRequestDTO;
+import com.example.react_project_backend.dto.PageResponseDTO;
 import com.example.react_project_backend.dto.TodoDTO;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,8 @@ public interface TodoService {
 
     // 삭제
     void remove(Long tno);
+
+    PageResponseDTO<TodoDTO> getList(PageRequestDTO pageRequestDTO);
 
     // Todo Entity를 DTO로 바꿔줌
     default TodoDTO entityToDTO(Todo todo) {

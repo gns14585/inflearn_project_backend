@@ -1,5 +1,6 @@
 package com.example.react_project_backend.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
@@ -15,7 +16,9 @@ public class PageResponseDTO<E> { // 페이징 결과물
     private boolean prev, next;
     private int totalCount, prevPage, nextPage, totalPage, current;
 
+
     // 페이징 처리
+    @Builder(builderMethodName = "withAll")
     public PageResponseDTO(List<E> dtoList, PageRequestDTO pageRequestDTO, long total) {
         this.dtoList = dtoList;
         this.pageRequestDTO = pageRequestDTO;
