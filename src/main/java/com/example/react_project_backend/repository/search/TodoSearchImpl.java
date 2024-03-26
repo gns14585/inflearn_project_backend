@@ -21,13 +21,17 @@ public class TodoSearchImpl extends QuerydslRepositorySupport implements TodoSea
     @Override
     public Page<Todo> search1() {
         log.info("search1...................");
-        QTodo todo = QTodo.todo;
-        JPQLQuery<Todo> query = from(todo);
-        query.where(todo.title.contains("1"));
+        QTodo todo = QTodo.todo; // 쿼리를 날리기 위한 객체
+        JPQLQuery<Todo> query = from(todo); // Todo에 관련된 쿼리를 만들고 todo에 있는 데이터를 뽑아냄
+        query.where(todo.title.contains("1")); // where조건 = 제목에 1이라는 글자
+
+        // 페이징처리
         Pageable pageable = PageRequest.of(1, 10, Sort.by("tno").descending());
+        // QueryDsl 을 가져오고, pageable과 query 를 applyPagination 로 가져오기.
         this.getQuerydsl().applyPagination(pageable, query);
-        query.fetch(); // 목록 데이터 가져올때
-        query.fetchCount();
+
+        query.fetch(); // 쿼리를 실행함 (목록 데이터 가져올때)
+        query.fetchCount(); // fetchCount는 전부 Long타입으로 나옴. (데이터가 많아서)
         return null;
     }
 }
