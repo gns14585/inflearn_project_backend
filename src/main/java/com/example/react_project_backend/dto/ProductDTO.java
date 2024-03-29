@@ -20,7 +20,7 @@ public class ProductDTO {
     private String pname; // 이름
     private int price; // 가격
     private String pdesc; // 설명
-    private boolean delFlag;
+    private boolean delFlag; // 삭제플래그
 
     @Builder.Default
     private List<MultipartFile> files = new ArrayList<>(); // 파일 업로드 용

@@ -3,6 +3,7 @@ package com.example.react_project_backend.util;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,7 +47,16 @@ public class CustomFileUtil {
             Path savePath = Paths.get(uploadPath, savedName);
 
             try {
-                Files.copy(file.getInputStream(), savePath);
+                Files.copy(file.getInputStream(), savePath); // 원본 파일 업로드
+
+                // 이미지인 경우에만 확인해서 썸네일 만듬
+                String contentType = file.getContentType(); // Mime type
+                // 이미지파일 이라면
+                if (contentType != null || contentType.startsWith("image")) {
+                    Path thumbnailPath = Paths.get(uploadPath, "s_" + savedName);
+                    Thumbnails.of(savePath.toFile()).size(200, 200).toFile(thumbnailPath.toFile());
+                }
+
                 uploadNames.add(savedName);
             } catch (IOException e) {
                 throw new RuntimeException(e);
