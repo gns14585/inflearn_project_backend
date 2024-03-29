@@ -52,6 +52,7 @@ public class CustomFileUtil {
                 // 이미지인 경우에만 확인해서 썸네일 만듬
                 String contentType = file.getContentType(); // Mime type
                 // 이미지파일 이라면
+                // 원본파일은 s_ 가 없음
                 if (contentType != null || contentType.startsWith("image")) {
                     Path thumbnailPath = Paths.get(uploadPath, "s_" + savedName);
                     Thumbnails.of(savePath.toFile()).size(200, 200).toFile(thumbnailPath.toFile());
