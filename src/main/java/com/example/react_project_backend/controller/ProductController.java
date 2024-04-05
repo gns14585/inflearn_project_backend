@@ -1,6 +1,9 @@
 package com.example.react_project_backend.controller;
 
+import com.example.react_project_backend.dto.PageRequestDTO;
+import com.example.react_project_backend.dto.PageResponseDTO;
 import com.example.react_project_backend.dto.ProductDTO;
+import com.example.react_project_backend.service.ProductService;
 import com.example.react_project_backend.util.CustomFileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -19,6 +22,7 @@ import java.util.Map;
 public class ProductController {
 
     private final CustomFileUtil fileUtil;
+    private final ProductService productService;
 
     @PostMapping("/")
     public Map<String, String> register(ProductDTO productDTO) {
@@ -26,7 +30,7 @@ public class ProductController {
         log.info("register: " + productDTO);
         List<MultipartFile> files = productDTO.getFiles();
         List<String> uploadedFileNames = fileUtil.saveFiles(files);
-        productDTO.setUploadedFileNames(uploadedFileNames);
+        productDTO.setUploadFileNames(uploadedFileNames);
         log.info(uploadedFileNames);
 
         return Map.of("RESULT", "SUCCESS");
@@ -37,6 +41,12 @@ public class ProductController {
     public ResponseEntity<Resource> viewFileGET(@PathVariable("fileName") String fileName) {
 
         return fileUtil.getFile(fileName);
+    }
+
+    // ----------------------- 목록데이터 조회 -----------------------
+    @GetMapping("/list")
+    public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO) {
+        return productService.getList(pageRequestDTO);
     }
 
 

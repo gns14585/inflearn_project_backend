@@ -60,7 +60,10 @@ public class ProductRepositoryTests {
     public void testUpdate() {
         Product product = productRepository.selectOne(1L).get();
         product.changePrice(3000);
+
+        // jpa가 arrayList를 관리하고있음, 그래서 현재 사용하고있는 컬렉션을 사용하여야함
         product.clearList();
+
         product.addImageString(UUID.randomUUID() + "_" + "PIMAGE1.JPG");
         product.addImageString(UUID.randomUUID() + "_" + "PIMAGE2.JPG");
         product.addImageString(UUID.randomUUID() + "_" + "PIMAGE3.JPG");
