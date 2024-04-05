@@ -24,17 +24,17 @@ public class ProductController {
     private final CustomFileUtil fileUtil;
     private final ProductService productService;
 
-    @PostMapping("/")
-    public Map<String, String> register(ProductDTO productDTO) {
-
-        log.info("register: " + productDTO);
-        List<MultipartFile> files = productDTO.getFiles();
-        List<String> uploadedFileNames = fileUtil.saveFiles(files);
-        productDTO.setUploadFileNames(uploadedFileNames);
-        log.info(uploadedFileNames);
-
-        return Map.of("RESULT", "SUCCESS");
-    }
+//    @PostMapping("/")
+//    public Map<String, String> register(ProductDTO productDTO) {
+//
+//        log.info("register: " + productDTO);
+//        List<MultipartFile> files = productDTO.getFiles();
+//        List<String> uploadedFileNames = fileUtil.saveFiles(files);
+//        productDTO.setUploadFileNames(uploadedFileNames);
+//        log.info(uploadedFileNames);
+//
+//        return Map.of("RESULT", "SUCCESS");
+//    }
 
     // ----------------------- 파일 조회 ----------------------
     @GetMapping("/view/{fileName}")
@@ -47,6 +47,26 @@ public class ProductController {
     @GetMapping("/list")
     public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO) {
         return productService.getList(pageRequestDTO);
+    }
+
+    // ----------------------- 파일 업로드 ----------------------
+    @PostMapping("/")
+    public Map<String, Long> register(ProductDTO productDTO) {
+        List<MultipartFile> files = productDTO.getFiles();
+        List<String> uploadFileNames = fileUtil.saveFiles(files);
+
+        productDTO.setUploadFileNames(uploadFileNames);
+
+        log.info(uploadFileNames);
+
+        Long pno = productService.register(productDTO);
+        return Map.of("result", pno);
+
+    }
+
+    @GetMapping("/{pno}")
+    public ProductDTO read(@PathVariable("pno") Long pno) {
+        return productService.get(pno);
     }
 
 
